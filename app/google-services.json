@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "992991124131",
+    "firebase_url": "https://letsconnect-fea0c.firebaseio.com",
+    "project_id": "letsconnect-fea0c",
+    "storage_bucket": "letsconnect-fea0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992991124131:android:907bb1f0b9424406",
+        "android_client_info": {
+          "package_name": "com.example.rajneeshshukla.letsconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992991124131-7u9dhlodg7kj9962ckp51joid0qvatgm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rajneeshshukla.letsconnect",
+            "certificate_hash": "e0b8bd3d6d1b1e11043fbc335b4436c43a0e9e45"
+          }
+        },
+        {
+          "client_id": "992991124131-4s7j4doakclcf5colu1k26a89af4ha59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz1NFS25_wpPeVNa5ia2MjeIPP93VdpsI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "992991124131-4s7j4doakclcf5colu1k26a89af4ha59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
