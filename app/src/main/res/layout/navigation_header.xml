@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimary">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_pic"
@@ -13,13 +13,13 @@
         android:layout_alignParentTop="true"
         android:padding="10dp"
         android:src="@drawable/profile"
-        app:civ_border_color="@color/blueTheme"
+        app:civ_border_color="@color/colorPrimaryDark"
         app:civ_border_width="4dp" />
     <TextView
         android:layout_below="@id/profile_pic"
         android:text="Rajneesh Shukla"
-        android:textSize="30dp"
-        android:textColor="@color/blueTheme"
+        android:textSize="25dp"
+        android:textColor="@android:color/white"
         android:layout_margin="5dp"
         android:textStyle="bold"
         android:layout_width="match_parent"
