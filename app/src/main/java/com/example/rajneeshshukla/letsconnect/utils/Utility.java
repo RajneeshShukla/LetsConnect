@@ -144,6 +144,4 @@ public class Utility {
     public static void logExceptionData(Exception e) {
         Log.e(AppStringConstants.EXCEPTION_LOG_TAG, AppStringConstants.EXCEPTION_TAG + Log.getStackTraceString(e));
     }
-
-
 }

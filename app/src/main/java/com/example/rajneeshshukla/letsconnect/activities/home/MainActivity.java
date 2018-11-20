@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /** Will  move to LoginActivity */
     private void moveToLoginActivity() {
         startActivity(new Intent(this, LoginActivity.class));
     }
