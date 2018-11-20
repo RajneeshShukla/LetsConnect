@@ -1,5 +1,6 @@
 package com.example.rajneeshshukla.letsconnect.activities.settings;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.rajneeshshukla.letsconnect.R;
+import com.example.rajneeshshukla.letsconnect.activities.home.MainActivity;
 import com.example.rajneeshshukla.letsconnect.utils.Utility;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -43,6 +45,16 @@ public class SetUpActivity extends AppCompatActivity implements AdapterView.OnIt
         mUsername = findViewById(R.id.user_name_id);
         mName = findViewById(R.id.name);
         mSaveInfoBtn = findViewById(R.id.save_info_btn);
+
+        //TODO:// dummy ----------  move to mainActivity
+        mSaveInfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
+        });
+
     }
 
 
