@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.rajneeshshukla.letsconnect.R;
 import com.example.rajneeshshukla.letsconnect.activities.register.LoginActivity;
+import com.example.rajneeshshukla.letsconnect.utils.Utility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -116,8 +117,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.nav_logout:
-                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+              mFirebaseAuth.signOut();
+                Utility.showShortText(this, "Logout successfully");
+                moveToLoginActivity();
                 break;
         }
+    }
+
+    private void moveToLoginActivity() {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }
