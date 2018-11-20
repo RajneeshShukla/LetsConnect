@@ -37,7 +37,7 @@ public class SetUpActivity extends AppCompatActivity implements AdapterView.OnIt
         setUpLayout();
     }
 
-    /* Setup layout component */
+    /** Setup layout component */
     private void setUpLayout() {
         mProfileImage = findViewById(R.id.profile_picture);
         mUsername = findViewById(R.id.user_name_id);
@@ -46,7 +46,7 @@ public class SetUpActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
-    /* This method will setup spinner to select country name */
+    /** This method will setup spinner to select country name */
     private void setUpCountrySpinner() {
         mCountrySpinner = findViewById(R.id.coutry_spinner);
 
@@ -58,7 +58,7 @@ public class SetUpActivity extends AppCompatActivity implements AdapterView.OnIt
         mCountrySpinner.setAdapter(mCountryAdapter);
     }
 
-    //Performing action onItemSelected and onNothing selected
+    /** Performing action onItemSelected and onNothing selected */
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
         Log.e("TAG", "Item is accessed");
@@ -68,7 +68,7 @@ public class SetUpActivity extends AppCompatActivity implements AdapterView.OnIt
         Toast.makeText(getApplicationContext(),mCountryNameArray[position] , Toast.LENGTH_LONG).show();
     }
 
-    /* When Nothing is selected in Spinner  */
+    /** When Nothing is selected in Spinner  */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
