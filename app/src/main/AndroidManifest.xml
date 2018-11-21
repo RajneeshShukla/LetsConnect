@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.settings.SetUpActivity"></activity>
+        <activity android:name=".activities.settings.SetUpProfileActivity"></activity>
     </application>
 
 </manifest>

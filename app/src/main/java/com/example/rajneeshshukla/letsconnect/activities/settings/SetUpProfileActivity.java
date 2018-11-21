@@ -20,7 +20,7 @@ import com.example.rajneeshshukla.letsconnect.utils.Utility;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SetUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SetUpProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner mCountrySpinner;
     private CircleImageView mProfileImage;

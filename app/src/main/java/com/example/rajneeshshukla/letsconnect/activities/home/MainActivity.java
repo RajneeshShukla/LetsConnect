@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.rajneeshshukla.letsconnect.R;
 import com.example.rajneeshshukla.letsconnect.activities.register.LoginActivity;
-import com.example.rajneeshshukla.letsconnect.activities.settings.SetUpActivity;
+import com.example.rajneeshshukla.letsconnect.activities.settings.SetUpProfileActivity;
 import com.example.rajneeshshukla.letsconnect.utils.Utility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** method will open SetupProfileActivity */
     private void sendUserToSetupProfileActivity() {
-        startActivity(new Intent(this, SetUpActivity.class));
+        startActivity(new Intent(this, SetUpProfileActivity.class));
         finish();
     }
 

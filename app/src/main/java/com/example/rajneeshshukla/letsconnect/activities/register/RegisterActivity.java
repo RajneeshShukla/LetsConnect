@@ -1,6 +1,5 @@
 package com.example.rajneeshshukla.letsconnect.activities.register;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.rajneeshshukla.letsconnect.R;
-import com.example.rajneeshshukla.letsconnect.activities.settings.SetUpActivity;
+import com.example.rajneeshshukla.letsconnect.activities.settings.SetUpProfileActivity;
 import com.example.rajneeshshukla.letsconnect.utils.Utility;
 import com.example.rajneeshshukla.letsconnect.utils.Validate;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -78,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Utility.hideLoader(RegisterActivity.this);
-                                startActivity(new Intent(getApplicationContext(), SetUpActivity.class));
+                                startActivity(new Intent(getApplicationContext(), SetUpProfileActivity.class));
                                 Utility.showLongText(getApplicationContext(), "Account is created successfully...");
                                 finish();
                             } else {

@@ -112,6 +112,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
 
+        /*
+           Auto if user is already login Send user directly on mainActivity
+         */
         FirebaseUser mCurrentUser  = mAuth.getCurrentUser();
         if(mCurrentUser != null){
            sendUserToMainActivity();
