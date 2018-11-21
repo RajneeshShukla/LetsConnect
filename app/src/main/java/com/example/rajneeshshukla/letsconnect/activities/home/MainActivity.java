@@ -15,9 +15,16 @@ import android.widget.Toast;
 
 import com.example.rajneeshshukla.letsconnect.R;
 import com.example.rajneeshshukla.letsconnect.activities.register.LoginActivity;
+import com.example.rajneeshshukla.letsconnect.activities.settings.SetUpActivity;
 import com.example.rajneeshshukla.letsconnect.utils.Utility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,17 +33,24 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mPostList;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mToogle;
+
+    // Firebase
     private FirebaseAuth mFirebaseAuth;
+    private DatabaseReference mFirebaseDataRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mFirebaseAuth = FirebaseAuth.getInstance(); // get the instance of firebase
+
+        // Get reference to firebase database
+        mFirebaseDataRef = FirebaseDatabase.getInstance().getReference().child("Users");
+
         setLayout();
         setEventOnDrawerMenu();
-
-        mFirebaseAuth = FirebaseAuth.getInstance(); // get the instance of firebase
     }
 
     /* Choose which menu item is checked on drawer*/
@@ -79,10 +93,51 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser mUser = mFirebaseAuth.getCurrentUser();
-        if(mUser == null){
-            startActivity(new Intent(this, LoginActivity.class));
+        FirebaseUser mCurrentUser = mFirebaseAuth.getCurrentUser();
+
+        if(mCurrentUser == null){
+            sendUserToLoginActivity();
+        }else{
+            checkUserExistence();
         }
+
+    }
+
+
+
+    /**
+     * Check if user is authenticated and its profile data is not available in firebase database
+     *  In this case send user to setUpProfile activity to complete his profile
+     * */
+    private void checkUserExistence() {
+        final String mCurrentUserId = mFirebaseAuth.getCurrentUser().getUid();
+
+        //TODO: this functionality is not working now complete this
+        mFirebaseDataRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               if(!dataSnapshot.hasChild(mCurrentUserId)){
+                   sendUserToSetupProfileActivity();
+               }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    /** method will open SetupProfileActivity */
+    private void sendUserToSetupProfileActivity() {
+        startActivity(new Intent(this, SetUpActivity.class));
+        finish();
+    }
+
+    /** Send user to login activity */
+    private void sendUserToLoginActivity() {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     /** set Action based on menu item selected */
@@ -128,4 +183,5 @@ public class MainActivity extends AppCompatActivity {
     private void moveToLoginActivity() {
         startActivity(new Intent(this, LoginActivity.class));
     }
+
 }

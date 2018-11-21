@@ -63,7 +63,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    /** Move to MainActivity */
+    /**
+     * Move to MainActivity
+     */
     private void moveToMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
@@ -101,6 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Utility.hideLoader(LoginActivity.this);
+                            moveToMainActivity();
                             Utility.showShortText(getApplicationContext(), "Login successful...");
                         } else {
                             Utility.hideLoader(LoginActivity.this);
