@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import static com.example.rajneeshshukla.letsconnect.R.id.create_new_account_text;
 
@@ -63,13 +64,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    /**
-     * Move to MainActivity
-     */
-    private void moveToMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
-    }
 
     /**
      * Login to Firebase
@@ -103,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Utility.hideLoader(LoginActivity.this);
-                            moveToMainActivity();
+                            sendUserToMainActivity();
                             Utility.showShortText(getApplicationContext(), "Login successful...");
                         } else {
                             Utility.hideLoader(LoginActivity.this);
@@ -113,6 +107,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser mCurrentUser  = mAuth.getCurrentUser();
+        if(mCurrentUser != null){
+           sendUserToMainActivity();
+        }
+    }
+
+
+    /** Send User to MainActivity */
+    private void sendUserToMainActivity() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
 
     /**
      * Method will use user to Register Activity
