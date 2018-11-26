@@ -64,11 +64,11 @@ public class RegisterActivity extends AppCompatActivity {
         String mUserConfirmPassword = mConfirmPassword.getText().toString().trim();
 
         if (!Validate.validateEmail(this, mUserEmail)) {
-            Utility.showLongText(this, "Enter Valid Email...");
+            Utility.showLongText(this, getString(R.string.enter_valid_email_message));
         } else if (!Validate.validatePassword(this, mUserPassword)) {
-            Utility.showLongText(this, "Enter Valid password with min 6 length...");
+            Utility.showLongText(this, getString(R.string.password_info_alert_message));
         } else if (!Validate.validateConfirmPassword(this, mUserPassword, mUserConfirmPassword)) {
-            Utility.showLongText(this, "Password do not match...");
+            Utility.showLongText(this, getString(R.string.password_not_match_message));
         } else {
             Utility.showLoader(this);
             mAuth.createUserWithEmailAndPassword(mUserEmail, mUserPassword)
@@ -78,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 Utility.hideLoader(RegisterActivity.this);
                                 startActivity(new Intent(getApplicationContext(), SetUpProfileActivity.class));
-                                Utility.showLongText(getApplicationContext(), "Account is created successfully...");
+                                Utility.showLongText(getApplicationContext(), getString(R.string.account_created_successfully_message));
                                 finish();
                             } else {
                                 Utility.hideLoader(RegisterActivity.this);

@@ -3,6 +3,18 @@
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
     <string name="not_have_account_create_new_account">Not have account, <b>Create New account</b></string>
+    <string name="Enter_valid_username">Enter valid username</string>
+    <string name="Enter_valid_name">Enter valid name</string>
+    <string name="enter_valid_country_nname">Choose a valid country name</string>
+    <string name="default_status_message">Hi, there I am using Let\'s Connect</string>
+    <string name="accout_created_successfully_message">Your account is created successfully</string>
+    <string name="logout_successful_message">Logout successfully</string>
+    <string name="enter_valid_email_message">Enter valid email...</string>
+    <string name="enter_valid_password_message">Enter valid password...</string>
+    <string name="login_successfull_message">Login successful...</string>
+    <string name="password_not_match_message">Password do not match...</string>
+    <string name="password_info_alert_message">Enter Valid password with min 6 length...</string>
+    <string name="account_created_successfully_message">Account is created successfully...</string>
 
     // All country name for the profile list
     <string-array name="countries_array">

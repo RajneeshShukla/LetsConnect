@@ -84,18 +84,18 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
         String mUserFullName = mName.getText().toString().trim();
 
         if (TextUtils.isEmpty(mUserName)) {
-            Utility.showShortText(this, "Enter valid username");
+            Utility.showShortText(this, getString(R.string.Enter_valid_username));
         } else if (TextUtils.isEmpty(mUserFullName)) {
-            Utility.showShortText(this, "Enter valid name");
+            Utility.showShortText(this, getString(R.string.Enter_valid_name));
         } else if (!TextUtils.isEmpty(mCountryName)) {
             //TODO: Selection of Country is not working now
-            Utility.showShortText(this, "Choose a valid country name");
+            Utility.showShortText(this, getString(R.string.enter_valid_country_nname));
         } else {
             HashMap mUserMap = new HashMap();
             mUserMap.put("user_name", mUserName);
             mUserMap.put("full_name", mUserFullName);
             mUserMap.put("country", mCountryName);
-            mUserMap.put("status", "Hi, there I am using Let's Connect");
+            mUserMap.put("status", getString(R.string.default_status_message));
             mUserMap.put("gender", "none");
             mUserMap.put("bob", "none");
             mUserMap.put("relationship_status", "none");
@@ -104,7 +104,7 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
-                        Utility.showLongText(getApplicationContext(), "Your account is created successfully");
+                        Utility.showLongText(getApplicationContext(), getString(R.string.accout_created_successfully_message));
                         sendUserToMainActivity();
                     } else {
                         Utility.showLongText(getApplicationContext(), task.getException().getMessage());

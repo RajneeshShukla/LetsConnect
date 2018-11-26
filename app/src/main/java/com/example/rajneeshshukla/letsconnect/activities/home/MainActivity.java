@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.nav_logout:
               mFirebaseAuth.signOut();
-                Utility.showShortText(this, "Logout successfully");
+                Utility.showShortText(this, getString(R.string.logout_successful_message));
                 moveToLoginActivity();
                 break;
         }

@@ -74,9 +74,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String mUserPassword = mPassword.getText().toString().trim();
 
         if (!Validate.validateEmail(this, mUserEmail)) {
-            Utility.showShortText(this, "Enter valid image...");
+            Utility.showShortText(this, getString(R.string.enter_valid_email_message));
         } else if (!Validate.validatePassword(this, mUserPassword)) {
-            Utility.showShortText(this, "Enter valid password...");
+            Utility.showShortText(this, getString(R.string.enter_valid_password_message));
         } else {
             loginUser(mUserEmail, mUserPassword);
         }
@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
                             Utility.hideLoader(LoginActivity.this);
                             sendUserToMainActivity();
-                            Utility.showShortText(getApplicationContext(), "Login successful...");
+                            Utility.showShortText(getApplicationContext(), getString(R.string.login_successfull_message));
                         } else {
                             Utility.hideLoader(LoginActivity.this);
                             String message = task.getException().getMessage();
