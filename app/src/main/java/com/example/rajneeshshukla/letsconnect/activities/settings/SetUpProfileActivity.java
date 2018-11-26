@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.rajneeshshukla.letsconnect.R;
 import com.example.rajneeshshukla.letsconnect.activities.home.MainActivity;
 import com.example.rajneeshshukla.letsconnect.utils.Utility;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -55,6 +57,7 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
     private StorageReference mStoreProfileRef;
 
     private String mCurrentUserId;
+    private Uri mDownloadUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +97,7 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
         mSaveInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utility.showLoader(SetUpProfileActivity.this);
                 saveProfileInfo();
             }
         });
@@ -132,7 +136,7 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
 
                 Log.e("SETUP: ", mResultUri + " ");
 
-                mProfileImage.setImageURI(mResultUri);
+               // mProfileImage.setImageURI(mResultUri);
                 saveImageToFirebase(mResultUri);
             }
         }
@@ -140,9 +144,67 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
 
     /** Method will save profile image to the firebase database
      * @param mResultUri*/
-    private void saveImageToFirebase(Uri mResultUri) {
-        StorageReference mFilePath = mStoreProfileRef.child(mCurrentUserId + ".jpg");
-    //     TODO:// write code to save the image to the database
+    private void saveImageToFirebase(final Uri mResultUri) {
+        final StorageReference mFilePath = mStoreProfileRef.child(mCurrentUserId + ".jpg");
+        UploadTask uploadTask = mFilePath.putFile(mResultUri);
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.e("TaskShot: " ,  taskSnapshot.getMetadata().getName());
+
+                Utility.showShortText(getApplicationContext(), "Image is saved...");
+                Utility.showLoader(SetUpProfileActivity.this);
+                getProfileImageUrl( mResultUri, mFilePath);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+            }
+        });
+    }
+
+    /** Will get the url form the firebase storeage*/
+    private void getProfileImageUrl(Uri mResultUri, final StorageReference mFilePath) {
+      UploadTask mUploadTask = mFilePath.putFile(mResultUri);
+
+        Task<Uri> urlTask = mUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return mFilePath.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                     mDownloadUri = task.getResult();
+                    Log.e("MYTAG : ", mDownloadUri + " ");
+                    dishplayProfileImage(mDownloadUri);
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
+
+
+    }
+
+    /** Method will display  profile image from firbase storage */
+    private void dishplayProfileImage(Uri mDownloadUri) {
+        Picasso.with(this).load(mDownloadUri).placeholder(R.drawable.profile_icon).into(mProfileImage);
+        Utility.hideLoader(SetUpProfileActivity.this);
+        Utility.showLongText(this, "Profile image is saved successfully...");
     }
 
     /**
@@ -168,11 +230,13 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
             mUserMap.put("gender", "none");
             mUserMap.put("bob", "none");
             mUserMap.put("relationship_status", "none");
+            mUserMap.put("profile_url", mDownloadUri.toString());
 
             mFirebaseRef.updateChildren(mUserMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
+                        Utility.hideLoader(SetUpProfileActivity.this);
                         Utility.showLongText(getApplicationContext(), getString(R.string.accout_created_successfully_message));
                         sendUserToMainActivity();
                     } else {
