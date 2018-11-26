@@ -1,8 +1,10 @@
 package com.example.rajneeshshukla.letsconnect.activities.settings;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,10 +20,18 @@ import com.example.rajneeshshukla.letsconnect.R;
 import com.example.rajneeshshukla.letsconnect.activities.home.MainActivity;
 import com.example.rajneeshshukla.letsconnect.utils.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
@@ -29,6 +39,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetUpProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    private static final int PICK_IMG = 1;
     private Spinner mCountrySpinner;
     private CircleImageView mProfileImage;
     private EditText mUsername;
@@ -41,6 +52,7 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseData;
     private DatabaseReference mFirebaseRef;
+    private StorageReference mStoreProfileRef;
 
     private String mCurrentUserId;
 
@@ -53,6 +65,7 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
         mAuth = FirebaseAuth.getInstance();
         mCurrentUserId = mAuth.getCurrentUser().getUid();
         mFirebaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserId);
+        mStoreProfileRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
 
         setUpCountrySpinner();
         setUpLayout();
@@ -67,6 +80,17 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
         mName = findViewById(R.id.name);
         mSaveInfoBtn = findViewById(R.id.save_info_btn);
 
+        mProfileImage.setClickable(true);
+
+        // Add event listener on profile ImageView
+        mProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectProfileImage();
+            }
+        });
+
+        // On Save Profile info button is pressed
         mSaveInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +98,51 @@ public class SetUpProfileActivity extends AppCompatActivity implements AdapterVi
             }
         });
 
+    }
+
+    /**
+     * Will choose a image from gallery
+     */
+    private void selectProfileImage() {
+        Intent mGalIntent = new Intent();
+        mGalIntent.setAction(Intent.ACTION_GET_CONTENT);
+        mGalIntent.setType("image/*");
+        startActivityForResult(mGalIntent, PICK_IMG);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMG && resultCode == RESULT_OK && data != null) {
+            Uri mImabeUri = data.getData();
+
+            // start picker to get image for cropping and then use the image in cropping activity
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1, 1)
+                    .start(this);
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult mResult = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK) {
+                Uri mResultUri = mResult.getUri();
+
+                Log.e("SETUP: ", mResultUri + " ");
+
+                mProfileImage.setImageURI(mResultUri);
+                saveImageToFirebase(mResultUri);
+            }
+        }
+    }
+
+    /** Method will save profile image to the firebase database
+     * @param mResultUri*/
+    private void saveImageToFirebase(Uri mResultUri) {
+        StorageReference mFilePath = mStoreProfileRef.child(mCurrentUserId + ".jpg");
+    //     TODO:// write code to save the image to the database
     }
 
     /**

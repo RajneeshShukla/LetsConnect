@@ -3,6 +3,8 @@
     package="com.example.rajneeshshukla.letsconnect">
 
     <!--Permissions-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -24,6 +26,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.settings.SetUpProfileActivity"></activity>
+
+        <!--Crop Image activity  -->
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
 
 </manifest>
